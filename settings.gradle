@@ -1,0 +1,3 @@
+include ':afv'
+include ':app'
+rootProject.name = "Android Form Validation"
