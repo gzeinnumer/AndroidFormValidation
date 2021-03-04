@@ -34,11 +34,57 @@ public class Validator {
         return toValidate(this.views);
     }
 
+    private static boolean isValidNoSymbol(String s, String finalPermitedSymbol) {
+        if (s == null || s.trim().isEmpty()) {
+            Log.d(TAG, "Incorrect format of string");
+            return false;
+        }
+        Pattern p;
+        Matcher m;
+        if (finalPermitedSymbol == null) {
+            p = Pattern.compile("[^A-Za-z0-9]");
+        } else {
+            p = Pattern.compile("[^A-Za-z0-9" + finalPermitedSymbol + "]");
+        }
+        m = p.matcher(s);
+        return m.find();
+    }
+
+    private static boolean isValidEmail(String target) {
+        return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
+    }
+
+    private static boolean isValidNumber(String target) {
+        for (char c : target.toCharArray()) {
+            if (!Character.isDigit(c)) return false;
+        }
+        return true;
+    }
+
+    private static boolean isValidPhone(String number) {
+        return Patterns.PHONE.matcher(number).matches();
+    }
+
+    private void viewError(TextInputLayout parent, EditText ed, String msg) {
+        if (parent != null)
+            parent.setError(msg);
+        else
+            ed.setError(msg);
+    }
+
+    private void goneError(TextInputLayout parent) {
+        if (parent != null) {
+            parent.setError(null);
+            parent.setErrorEnabled(false);
+        }
+    }
+
     private boolean toValidate(List<FormBase> views) {
         String errorEmpty;
         String errorFormat;
         int minLength;
         boolean isValidate = true;
+        String permitedSymbol;
 
         for (int i = 0; i < views.size(); i++) {
             FormBase view = views.get(i);
@@ -46,7 +92,7 @@ public class Validator {
             TextInputLayout parent = view.getFormInput().getParent();
 
             minLength = view.getRule().getMinLength();
-
+            permitedSymbol = view.getRule().getPermitedSymbol();
             errorEmpty = (view.getRule().getErrorEmpty() != null) ? view.getRule().getErrorEmpty() : baseMessage.getEmpty();
             errorFormat = (view.getRule().getErrorFormat() != null) ? view.getRule().getErrorFormat() : baseMessage.getFormat();
 
@@ -76,53 +122,13 @@ public class Validator {
                     isValidate = false;
                 }
             } else if (view.getRule().getTypeForm() == TypeForm.TEXT_NO_SYMBOL) {
-                if (isValidNoSymbol(ed.getText().toString())) {
+                if (isValidNoSymbol(ed.getText().toString(), permitedSymbol)) {
                     viewError(parent, ed, errorFormat);
                     isValidate = false;
                 }
             }
         }
         return isValidate;
-    }
-
-    private void viewError(TextInputLayout parent, EditText ed, String msg) {
-        if (parent != null)
-            parent.setError(msg);
-        else
-            ed.setError(msg);
-    }
-
-    private void goneError(TextInputLayout parent) {
-        if (parent != null) {
-            parent.setError(null);
-            parent.setErrorEnabled(false);
-        }
-    }
-
-    private static boolean isValidEmail(String target) {
-        return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
-    }
-
-    private static boolean isValidNumber(String target) {
-        for (char c : target.toCharArray()) {
-            if (!Character.isDigit(c)) return false;
-        }
-        return true;
-    }
-
-    private static boolean isValidPhone(String number) {
-        return Patterns.PHONE.matcher(number).matches();
-    }
-
-    private static boolean isValidNoSymbol(String s) {
-        if (s == null || s.trim().isEmpty()) {
-            Log.d(TAG, "Incorrect format of string");
-            return false;
-        }
-        Pattern p = Pattern.compile("[^A-Za-z0-9]");
-        Matcher m = p.matcher(s);
-
-        return m.find();
     }
 
     public void addView(EditText view) {

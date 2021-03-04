@@ -7,6 +7,7 @@ public class Rule {
     private int minLength = 1;
     private String errorEmpty = "Tidak boleh kosong";
     private String errorFormat = "Format salah";
+    private String permitedSymbol;
 
     public Rule(TypeForm typeForm) {
         this.typeForm = typeForm;
@@ -28,6 +29,14 @@ public class Rule {
         this.minLength = minLength;
         this.errorEmpty = errorEmpty;
         this.errorFormat = errorFormat;
+    }
+
+    public Rule(TypeForm typeForm, int minLength, String errorEmpty, String errorFormat, String permitedSymbol) {
+        this.typeForm = typeForm;
+        this.minLength = minLength;
+        this.errorEmpty = errorEmpty;
+        this.errorFormat = errorFormat;
+        this.permitedSymbol = permitedSymbol;
     }
 
     public String getErrorEmpty() {
@@ -60,5 +69,13 @@ public class Rule {
 
     public void setErrorFormat(String errorFormat) {
         this.errorFormat = errorFormat;
+    }
+
+    public String getPermitedSymbol() {
+        return permitedSymbol;
+    }
+
+    public void setPermitedSymbol(String permitedSymbol) {
+        this.permitedSymbol = permitedSymbol;
     }
 }

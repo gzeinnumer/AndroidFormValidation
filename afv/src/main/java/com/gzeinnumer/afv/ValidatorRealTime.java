@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.View;
 import android.widget.EditText;
 
 import com.google.android.material.textfield.TextInputLayout;
@@ -23,10 +24,9 @@ import java.util.regex.Pattern;
 public class ValidatorRealTime {
 
     private static final String TAG = "ValidatorRealTime";
-
-    BaseMessage baseMessage;
-
+    private final BaseMessage baseMessage;
     private final List<FormBase> views = new ArrayList<>();
+    private boolean enableRealtimeMessageError = false;
 
     public ValidatorRealTime() {
         baseMessage = new BaseMessage();
@@ -48,27 +48,81 @@ public class ValidatorRealTime {
         views.add(new FormBase(formInput, rules));
     }
 
-    public void removeView(EditText view){
+    private static boolean isValidNoSymbol(String s, String finalPermitedSymbol) {
+        if (s == null || s.trim().isEmpty()) {
+            Log.d(TAG, "Incorrect format of string");
+            return false;
+        }
+        Pattern p;
+        Matcher m;
+        if (finalPermitedSymbol == null) {
+            p = Pattern.compile("[^A-Za-z0-9]");
+        } else {
+            p = Pattern.compile("[^A-Za-z0-9" + finalPermitedSymbol + "]");
+        }
+        m = p.matcher(s);
+        return m.find();
+    }
+
+    public void removeView(EditText view) {
         List<EditText> list = new ArrayList<>();
-        for(int i=0; i<views.size(); i++){
+        for (int i = 0; i < views.size(); i++) {
             list.add(views.get(i).getFormInput().getEditText());
         }
         int index = list.indexOf(view);
         views.remove(index);
     }
 
+    public void setEnableRealtimeMessageError(boolean enableRealtimeMessageError) {
+        this.enableRealtimeMessageError = enableRealtimeMessageError;
+    }
+
+    private void goneError(TextInputLayout parent) {
+        if (parent != null) {
+            parent.setError(null);
+            parent.setErrorEnabled(false);
+        }
+    }
+
+    private void changeValue(int finalI, boolean b) {
+        views.get(finalI).setDone(b);
+    }
+
+    private void viewError(TextInputLayout parent, EditText ed, String msg) {
+        if (parent != null)
+            parent.setError(msg);
+        else
+            ed.setError(msg);
+    }
+
+    private boolean isValidEmail(String target) {
+        return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
+    }
+
+    private boolean isValidNumber(String target) {
+        for (char c : target.toCharArray()) {
+            if (!Character.isDigit(c)) return false;
+        }
+        return true;
+    }
+
+    private boolean isValidPhone(String number) {
+        return Patterns.PHONE.matcher(number).matches();
+    }
+
     public void build() {
         String errorEmpty;
         String errorFormat;
         int minLength;
+        String permitedSymbol;
 
-        for(int i=0; i<views.size(); i++){
+        for (int i = 0; i < views.size(); i++) {
             FormBase view = views.get(i);
             EditText ed = view.getFormInput().getEditText();
             TextInputLayout parent = view.getFormInput().getParent();
 
             minLength = view.getRule().getMinLength();
-
+            permitedSymbol = view.getRule().getPermitedSymbol();
             errorEmpty = (view.getRule().getErrorEmpty() != null) ? view.getRule().getErrorEmpty() : baseMessage.getEmpty();
             errorFormat = (view.getRule().getErrorFormat() != null) ? view.getRule().getErrorFormat() : baseMessage.getFormat();
 
@@ -77,6 +131,19 @@ public class ValidatorRealTime {
             String finalErrorFormat = errorFormat;
             int finalI = i;
 
+            if (enableRealtimeMessageError) {
+                ed.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View view, boolean hasFocus) {
+                        if (!hasFocus) {
+                            if (ed.getText().toString().length() == 0)
+                                viewError(parent, ed, finalErrorEmpty);
+                        }
+
+                    }
+                });
+            }
+            String finalPermitedSymbol = permitedSymbol;
             ed.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -133,12 +200,12 @@ public class ValidatorRealTime {
                             viewError(parent, ed, finalErrorEmpty);
                             changeValue(finalI,false);
                         } else {
-                            if (isValidNoSymbol(ed.getText().toString())) {
+                            if (isValidNoSymbol(ed.getText().toString(), finalPermitedSymbol)) {
                                 viewError(parent, ed, finalErrorFormat);
-                                changeValue(finalI,false);
+                                changeValue(finalI, false);
                             } else {
                                 goneError(parent);
-                                changeValue(finalI,true);
+                                changeValue(finalI, true);
                             }
                         }
                     }
@@ -147,50 +214,6 @@ public class ValidatorRealTime {
                 }
             });
         }
-    }
-
-    private void goneError(TextInputLayout parent) {
-        if (parent != null){
-            parent.setError(null);
-            parent.setErrorEnabled(false);
-        }
-    }
-
-    private void changeValue(int finalI, boolean b) {
-        views.get(finalI).setDone(b);
-    }
-
-    private void viewError(TextInputLayout parent, EditText ed, String msg) {
-        if (parent!=null)
-            parent.setError(msg);
-        else
-            ed.setError(msg);
-    }
-
-    private boolean isValidEmail(String target) {
-        return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
-    }
-
-    private boolean isValidNumber(String target) {
-        for (char c : target.toCharArray()) {
-            if (!Character.isDigit(c)) return false;
-        }
-        return true;
-    }
-
-    private boolean isValidPhone(String number) {
-        return Patterns.PHONE.matcher(number).matches();
-    }
-
-    private static boolean isValidNoSymbol(String s) {
-        if (s == null || s.trim().isEmpty()) {
-            Log.d(TAG, "Incorrect format of string");
-            return false;
-        }
-        Pattern p = Pattern.compile("[^A-Za-z0-9]");
-        Matcher m = p.matcher(s);
-
-        return m.find();
     }
 
     private void triggerCallBack() {

@@ -47,6 +47,21 @@ validator.addView(
 |<img src="https://github.com/gzeinnumer/AndroidFormValidation/blob/master/preview/example16.jpg" width="400"/>|<img src="https://github.com/gzeinnumer/AndroidFormValidation/blob/master/preview/example17.jpg" width="400"/>|
 |---|---|
 
+
+```java
+int minLength = 8;
+String errorLengthMsg = "Minimal 8 Charakter";
+String errorFormatMsg = "Tidak Boleh Mengunakan Symbol";
+String permittedSymbol = "~@#$%^&*:;<>.,/}{+"; //permit some simbol
+validator.addView(
+        formNama,
+        new Rule(TypeForm.TEXT_NO_SYMBOL, minLength, errorLengthMsg, errorFormatMsg, permittedSymbol)
+);
+```
+
+|<img src="https://github.com/gzeinnumer/AndroidFormValidation/blob/master/preview/example16.jpg" width="400"/>|<img src="https://github.com/gzeinnumer/AndroidFormValidation/blob/master/preview/example17.jpg" width="400"/>|
+|---|---|
+
 ```java
 validator.addView(
         formNama,
