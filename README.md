@@ -6,7 +6,7 @@
 </h1>
 
 <div align="center">
-    <a><img src="https://img.shields.io/badge/Version-2.0.0-brightgreen.svg?style=flat"></a>
+    <a><img src="https://img.shields.io/badge/Version-2.1.0-brightgreen.svg?style=flat"></a>
     <a><img src="https://img.shields.io/badge/ID-gzeinnumer-blue.svg?style=flat"></a>
     <a><img src="https://img.shields.io/badge/Java-Suport-green?logo=java&style=flat"></a>
     <a><img src="https://img.shields.io/badge/Kotlin-Suport-green?logo=kotlin&style=flat"></a>
@@ -194,6 +194,14 @@ validatorRealTime.removeView(formNama);
 ```
 
 #
+- Realtime message error when focus changed.
+
+Put this code before `build()`.
+```java
+validatorRealTime.setEnableRealtimeMessageError(false);
+```
+
+#
 - Add view with custom configuration
 ```java
 //example 1
@@ -249,6 +257,8 @@ Read More Custom [**Rule**](https://github.com/gzeinnumer/AndroidFormValidation/
   - Bug Fixing
 - **2.0.0**
   - Support SDK 16
+- **2.1.0**
+  - TEXT_NO_SYMBOL with permite some symbol
 
 ---
 # Contribution

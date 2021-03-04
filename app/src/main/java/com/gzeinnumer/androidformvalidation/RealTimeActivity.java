@@ -1,7 +1,6 @@
 package com.gzeinnumer.androidformvalidation;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -16,9 +15,9 @@ import com.gzeinnumer.afv.helper.ValidatorCallBack;
 import com.gzeinnumer.afv.model.FormInput;
 import com.gzeinnumer.afv.model.Rule;
 
-public class SecondActivity extends AppCompatActivity {
+public class RealTimeActivity extends AppCompatActivity {
 
-    private static final String TAG = "SecondActivity";
+
     TextInputEditText formUserName, formPass;
     TextInputLayout formUserNameParent, formPassParent;
     Button btnSubmit, btnValidate;
@@ -26,7 +25,7 @@ public class SecondActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_second);
+        setContentView(R.layout.activity_real_time);
 
         formUserName = findViewById(R.id.form_username);
         formUserNameParent = findViewById(R.id.form_username_p);
@@ -49,16 +48,16 @@ public class SecondActivity extends AppCompatActivity {
         );
         validatorRealTime.addView(
                 new FormInput(formPassParent, formPass),
-                new Rule(TypeForm.TEXT_NO_SYMBOL, 8, "Minimal 8 karakter", "Format salah")
+                new Rule(TypeForm.TEXT_NO_SYMBOL, 8, "Minimal 8 karakter", "Format salah", "~@#$%^&*:;<>.,/}{+")
         );
         //validatorRealTime.removeView(formUserName);
 
+        validatorRealTime.setEnableRealtimeMessageError(true);
         validatorRealTime.build();
 
         validatorRealTime.observer(new ValidatorCallBack() {
             @Override
             public void result(boolean isDone) {
-                Log.d(TAG, "result: " + isDone);
                 btnSubmit.setEnabled(isDone);
             }
         });
@@ -67,9 +66,9 @@ public class SecondActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (validatorRealTime.getResult()) {
-                    Toast.makeText(SecondActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(SecondActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
                 }
             }
         });
