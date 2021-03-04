@@ -198,7 +198,7 @@ validatorRealTime.removeView(formNama);
 
 Put this code before `build()`.
 ```java
-validatorRealTime.setEnableRealtimeMessageError(false);
+validatorRealTime.setEnableRealtimeMessageError(true); //default value is false
 ```
 
 #

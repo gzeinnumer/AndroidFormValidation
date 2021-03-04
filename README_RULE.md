@@ -52,7 +52,7 @@ validator.addView(
 int minLength = 8;
 String errorLengthMsg = "Minimal 8 Charakter";
 String errorFormatMsg = "Tidak Boleh Mengunakan Symbol";
-String permittedSymbol = "~@#$%^&*:;<>.,/}{+"; //permit some simbol
+String permittedSymbol = "~@#$%^&*:;<>./}{+"; //permit some simbol
 validator.addView(
         formNama,
         new Rule(TypeForm.TEXT_NO_SYMBOL, minLength, errorLengthMsg, errorFormatMsg, permittedSymbol)
