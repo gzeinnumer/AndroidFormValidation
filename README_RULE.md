@@ -58,7 +58,7 @@ validator.addView(
         new Rule(TypeForm.TEXT_NO_SYMBOL, minLength, errorLengthMsg, errorFormatMsg, permittedSymbol)
 );
 ```
-
+**Only For `TypeForm.TEXT_NO_SYMBOL`**
 |<img src="https://github.com/gzeinnumer/AndroidFormValidation/blob/master/preview/example16.jpg" width="400"/>|<img src="https://github.com/gzeinnumer/AndroidFormValidation/blob/master/preview/example17.jpg" width="400"/>|
 |---|---|
 
