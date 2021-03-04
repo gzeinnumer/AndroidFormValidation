@@ -258,7 +258,7 @@ Read More Custom [**Rule**](https://github.com/gzeinnumer/AndroidFormValidation/
 - **2.0.0**
   - Support SDK 16
 - **2.1.0**
-  - TEXT_NO_SYMBOL with permite some symbol
+  - TEXT_NO_SYMBOL with permit some symbol
 
 ---
 # Contribution
