@@ -6,7 +6,7 @@
 </h1>
 
 <div align="center">
-    <a><img src="https://img.shields.io/badge/Version-2.1.0-brightgreen.svg?style=flat"></a>
+    <a><img src="https://img.shields.io/badge/Version-2.1.1-brightgreen.svg?style=flat"></a>
     <a><img src="https://img.shields.io/badge/ID-gzeinnumer-blue.svg?style=flat"></a>
     <a><img src="https://img.shields.io/badge/Java-Suport-green?logo=java&style=flat"></a>
     <a><img src="https://img.shields.io/badge/Kotlin-Suport-green?logo=kotlin&style=flat"></a>
@@ -49,6 +49,7 @@ dependencies {
 # Feature List
 - [x] [Validation Form](#validation-form)
 - [x] [Validation Form RealTime](#validation-form-realtime)
+- [x] [Get All EditText](#get-all-edittext)
 
 ---
 # Tech stack and 3rd library
@@ -234,6 +235,13 @@ Read More Custom [**Rule**](https://github.com/gzeinnumer/AndroidFormValidation/
 **&** [**XML**](https://github.com/gzeinnumer/AndroidFormValidation/blob/master/app/src/main/res/layout/activity_second.xml)
 **&** [**Preview**](https://github.com/gzeinnumer/AndroidFormValidation/blob/master/README_VALIDATOR_REALTIME.md) **.**
 
+#
+### Get All EditText
+
+```java
+ArrayList<EditText> v = new Validator().getAllEditText();
+```
+
 ---
 # Example Code/app
 
@@ -259,6 +267,8 @@ Read More Custom [**Rule**](https://github.com/gzeinnumer/AndroidFormValidation/
   - Support SDK 16
 - **2.1.0**
   - TEXT_NO_SYMBOL with permit some symbol
+- **2.1.1**
+  - Get All EditText
 
 ---
 # Contribution

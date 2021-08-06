@@ -1,6 +1,7 @@
 package com.gzeinnumer.androidformvalidation;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -86,5 +87,7 @@ public class NotRealTimeActivity extends AppCompatActivity {
                 }
             }
         });
+
+        Log.d(getClass().getSimpleName(), "onCreate: "+validator.getAllEditText().size());
     }
 }

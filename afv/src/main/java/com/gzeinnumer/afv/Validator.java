@@ -22,7 +22,7 @@ public class Validator {
 
     private static final String TAG = "Validator";
 
-    BaseMessage baseMessage;
+    private final BaseMessage baseMessage;
 
     private final List<FormBase> views = new ArrayList<>();
 
@@ -165,5 +165,13 @@ public class Validator {
         }
         int index = list.indexOf(view);
         views.remove(index);
+    }
+
+    public ArrayList<EditText> getAllEditText(){
+        ArrayList<EditText> v = new ArrayList<>();
+        for (int i = 0; i < views.size(); i++) {
+            v.add(views.get(i).getFormInput().getEditText());
+        }
+        return v;
     }
 }
