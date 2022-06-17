@@ -1,8 +1,8 @@
 package com.gzeinnumer.afv.constant;
 
 public class BaseMessage {
-    public String empty = "Tidak boleh kosong";
-    public String format = "Format salah";
+    public String empty = "Required*";
+    public String format = "Wrong Format";
 
     public BaseMessage() {
     }

@@ -5,8 +5,8 @@ import com.gzeinnumer.afv.constant.TypeForm;
 public class Rule {
     private TypeForm typeForm;
     private int minLength = 1;
-    private String errorEmpty = "Tidak boleh kosong";
-    private String errorFormat = "Format salah";
+    private String errorEmpty = "Required*";
+    private String errorFormat = "Wrong Format";
     private String permitedSymbol;
 
     public Rule(TypeForm typeForm) {
